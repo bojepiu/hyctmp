@@ -1,0 +1,10 @@
+{
+    "_id": "Generado por mongo por defecto",
+    "user_id": "Id Generado por el servidor",
+    "username": "Capturado desde el front",
+    "num_oto":"Capturado desde el front",
+    "user_path":"Capturado desde el front",
+    "email":"Capturado desde el front",
+    "user_created":"Fecha de crecacion",
+    "enabled":"por defec en true"
+}

@@ -1,0 +1,8 @@
+{
+    "_id":"generado por mongo",
+    "user_id":"usuario que genera la accion",
+    "num_oto":"numero de otorgante que genera la accion",
+    "user_name":"Nombre del usuario que genera la accion",
+    "action":"accion a registrar login|logout|send_file|download_file|delete_file|cancel_file|error",
+    "date":"fecha y hora del evento"
+}

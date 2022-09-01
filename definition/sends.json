@@ -1,0 +1,12 @@
+{
+    "_id": "Generado por defecto en mongo",
+    "send_id": "Generado por el servidor (este id es necesario?)", 
+    "user_id": "Usuario que realiza el envio",
+    "file_name": "Nombre del archivo proporcionado por el front",
+    "file_size": "Tamaño del archivo proporcionado por el front",
+    "total_parts": "Numero de partes a enviar",
+    "upload_url": "URL en s3 donde se depositara el archivo /id_user/upload/yyyymmdd-hhmmss (ya sea /parts/partx o /file_name.gpg)",
+    "date_init_upload": "Se crea al momento de registrar el envio",
+    "date_finish_uploaded": "Fecha y hora en que termina el envio",
+    "status":"init|upload|decrypted|merged|reencrypted|sendS3|sendsftp|complete"
+}

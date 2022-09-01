@@ -1,0 +1,11 @@
+{
+    "_id": "Generado por defecto en mongo",
+    "received_id": "Generado por el servidor (este id es necesario?)", 
+    "user_id": "Usuario que recibe el envio",
+    "file_name": "Nombre del archivo proporcionado por el front",
+    "file_size": "Tamaño del archivo proporcionado por el front",
+    "upload_url": "URL en s3 donde se encuentra el archivo /id_user/received/file_name.gpg",
+    "date_uploaded": "Fecha y hora en que se envio el archivo",
+    "date_downloaded": "Fecha y hora en que termina el envio",
+    "status":"pending|downloaded|deleted"
+}

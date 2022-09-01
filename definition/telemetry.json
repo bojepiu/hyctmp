@@ -1,0 +1,9 @@
+{
+    "_id":"Generado por mongo",
+    "user_id":"user_id evento generado",
+    "user_name":"user_name",
+    "num_oto":"numero del otorgante",
+    "module":"modulo del evento",
+    "action":"boton y/u opcion disparada",
+    "date":"fecha y hora del evento"
+}
