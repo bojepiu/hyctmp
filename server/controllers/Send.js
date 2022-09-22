@@ -1,35 +1,77 @@
-import {SendSchema} from '../models/Send.js'
-import mongoose from 'mongoose'
-import {MONGO_URI} from '../config.js'
+import { request } from 'express'
+import Send from '../models/Send.js'
 
-mongoose.connect(MONGO_URI).catch(err=>{console.log(err)})
-const Send= mongoose.model('Send',SendSchema);
-
-export async function InitSend(send){
+//INIT UPLOAD
+export async function NewSend(req,res){
     try {
-        var s=await send.save()
-        console.log(s)
-        if(!s)return {error:'register failed'}
-        return {message:'registered'}
+        var js=req.body
+        if(!js.user_name || !js.file_name || !js.file_size || !js.user_id || !js.send_id ){
+            return res.send({'error':'Bad request, parameters required not provided'})
+        }
+        var date_init_upload=new Date()
+        var status='init'
+        var newSend=new Send({send_id:js.send_id,user_id:js.user_id,file_name:js.file_name,
+            file_size:js.file_size,date_init_upload,status
+        })
+        var save=await newSend.save()
+        if(save){
+            console.log(save)
+        }
+        return res.send({'message':"Save Success"})//MANDAR _id???
     } catch (error) {
-        return {error:error.message||error}
+        //Hacer el manejo de errores segun sea el caso para no dar info de mas
+        if(error.code === 11000)//DUPLICATE ID
+        return res.send({error:'ID Duplicate',status:error.code})
+        return res.send({error:error.message||error})
+    }
+}
+//FINISH UPLOAD
+export async function UpdateSend(req,res){
+    try {
+        var js=req.body
+        if(!js.send_id){
+            return res.send({'error':'Bad request, parameters required not provided'}).status(400)
+        }
+        var sendObject=await Send.findOne({send_id:js.send_id})
+        console.log(sendObject)
+        if(sendObject){
+            return res.send({'message':'Found'})
+        }
+        return res.send({error:'ID not found'})
+    } catch (error) {
+        return res.send({error:error.message})
     }
 }
 
-export async function UpdateSend(send){
-    return send
+//UPLOAD SFTP
+export async function UploadSFTP(req,res){
+    try {
+        var js=req.body
+        if(!js.send_id || js.user_id){
+            return res.send({'error':'Bad request, parameters required not provided'}).status(400)
+        }
+        var sendObject=await Send.findOne({send_id:js.send_id}).status(200)
+        if(sendObject){
+
+        }else{
+            return res.send({error:'ID not found'}).status(404)
+        }
+    } catch (error) {
+        return res.send({error:error.message})
+    }
 }
 
-export function FinishSend(send){
-    return send
-}
-
-export function DoneSend(send){
-    return send
-}
-
-export function DleteSend(send){
-    return send
+//ONLY CHANGED STATUS TO DELETED
+export function DleteSend(req,res){
+    try {
+        var js= req.body
+        if(!js.user_id || !js.send_id){
+            return res.send({error:'Bad request, parameters required not provided'}).status(400)
+        }
+        //Validar que existe el envio
+    } catch (error) {
+        return res.send({error:error.message})
+    }
 }
 
 // var x= new Send({num_oto:'asd',date:new Date(),user_name:"asdasd",action:"xdd",user_id:"sadasd",status:"success",
@@ -38,6 +80,4 @@ export function DleteSend(send){
 //     console.log(r)
 // })
 // mongoose.disconnect()
-
-
-//db.createUser({user: "admindb" , pwd: "secret", roles: [  "readWriteAnyDatabase" ]})
+// db.createUser({user: "admindb" , pwd: "secret", roles: [  "readWriteAnyDatabase" ]})

@@ -1,26 +1,50 @@
-import {LogSchema} from '../models/Log.js'
-import mongoose from 'mongoose'
-import {MONGO_URI} from '../config.js'
+import Log from '../models/Log.js'
 
-mongoose.connect(MONGO_URI).catch(err=>{console.log(err)})
-const Log= mongoose.model('Log',LogSchema);
-
-export async function SaveLog(log){
+export async function NewEventLog(req,res){
     try {
-        var s=await log.save()
-        if(!s)return {error:'register failed'}
-        return {message:'registered'}
+        if(!req.body.num_oto || !req.body.user_name || !req.body.action || !req.body.user_id){
+            return res.send({'error':'Parameters required not provided'})
+        }
+        var user_id = req.body.user_id
+        var num_oto = req.body.num_oto
+        var user_name= req.body.user_name
+        var action = req.body.action
+        var saveLog=await new Log({num_oto,date:new Date(),user_name,action,user_id})
+        saveLog.save()
+        return res.send({message:'registered'})
     } catch (error) {
-        return {error:error.message||error}
+        return res.send({error:error.message||error})
     }
 }
 
+export async function GetLogId(req,res){
+    try {
+        console.log(req.params)
+        var logs=await Log.find({num_oto:req.params.numOto})
+        return res.send(logs)
+    } catch (error) {
+        return res.send({error:error.message})        
+    }
+}
 
-var x= new Log({num_oto:'asd',date:new Date(),user_name:"asdasd",action:"xdd",user_id:"sadasd"})
-SaveLog(x).then(r=>{
-    console.log(r)
-})
-mongoose.disconnect()
-
+export async function GetLogDate(req,res){
+    try {
+        var init=req.query.init
+        var end=req.query.end
+        if(!init || !end){
+            res.send({error:'Query parameters not specified init=yyyy-mm-dd end=yyyy-mm-dd'})
+        }
+        var initDate=new Date(init)
+        var endDate=new Date(end)
+        if(req.query.numOto)
+        var query={"date":{"$gte":initDate.setHours(0,0,0),"$lte":endDate.setHours(23,59,59)},'num_oto':req.query.numOto}
+        else
+        var query={"date":{"$gte":initDate.setHours(0,0,0),"$lte":endDate.setHours(23,59,59)}}
+        var result=await Log.find(query) 
+        return res.send(result)
+    } catch (error) {
+        return res.send({error:error.message||error.message}) 
+    }
+}
 
 //db.createUser({user: "admindb" , pwd: "secret", roles: [  "readWriteAnyDatabase" ]})

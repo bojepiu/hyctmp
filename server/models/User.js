@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const CreateUserModel = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
@@ -16,7 +16,8 @@ const CreateUserModel = new mongoose.Schema({
     },
     password: {
         type: String,
-        select:false
+        select:false,
+        required: true
     },
     pathSftp: {
         type: String,
@@ -36,8 +37,7 @@ const CreateUserModel = new mongoose.Schema({
     },
     passPhrase:{
         type: String,
-        required: true,
-        select: false
+        required: true
     },
     mfaCode: { 
         type: String,
@@ -57,4 +57,4 @@ const CreateUserModel = new mongoose.Schema({
     } 
 })
 
-export default mongoose.model('CreateUserModel',CreateUserModel)
+export default mongoose.model('User',userSchema)

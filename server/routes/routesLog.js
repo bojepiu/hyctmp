@@ -1,18 +1,19 @@
 //REGISTER ROUTES FOR LOG_INFO
 import {Router} from 'express'
+import {NewEventLog,GetLogId,GetLogDate} from '../controllers/Log.js'
 
 var routerLog = Router()
 
 //INSERT EVENT
-routerLog.post('/', function (req, res) {res.send('Inserta Evento')})
+routerLog.post('/',NewEventLog)
 
 //GET LOG DATE 
-routerLog.post('/date', function (req, res) {res.send('Obtiene Eventos por fecha')})
+routerLog.get('/date', GetLogDate)
 
 //GET LOG USER
-routerLog.get('/user/:id', function (req, res) {res.send(req.params.id)})
+routerLog.get('/:numOto',GetLogId)
 
-//DELETE LOG DATE
-routerLog.post('/delete', function (req, res) {res.send(req.params.id)})
+//DELETE LOG DATE //NECESARIO???
+routerLog.post('/delete', function (req, res) {res.send('deleted')})
 
 export default routerLog;

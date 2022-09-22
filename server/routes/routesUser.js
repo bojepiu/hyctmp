@@ -1,6 +1,6 @@
 //REGISTER ROUTES FOR LOG_INFO
 import {Router} from 'express'
-import {NewUser} from '../controllers/auth.js'
+import {NewUser} from '../controllers/User.js'
 var routerAuth = Router()
 
 //NEW USER 

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-export const LogSchema = new mongoose.Schema({
+const logSchema = new mongoose.Schema({
     "user_id":{
         type: String,
         required: true
@@ -22,3 +22,5 @@ export const LogSchema = new mongoose.Schema({
         required: true
     }
 })
+
+export default mongoose.model('Log',logSchema)
