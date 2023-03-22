@@ -3,6 +3,7 @@ import routerMain from './routes/index.js'
 import {ConnectDB} from './db.js'
 
 ConnectDB()
+//Inicializando express
 const app=express()
 app.use(express.json())
 app.use((err, req, res, next) => {
@@ -13,6 +14,7 @@ app.use((err, req, res, next) => {
     }
     next();
 });
+
 app.use(routerMain)
 
 export default app;
